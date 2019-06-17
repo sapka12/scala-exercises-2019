@@ -49,10 +49,6 @@ object List { // `List` companion object. Contains functions for creating and wo
   def sum2(ns: List[Int]) =
     foldRight(ns, 0)((x,y) => x + y)
 
-  def product2(ns: List[Double]) =
-    foldRight(ns, 1.0)(_ * _) // `_ * _` is more concise notation for `(x,y) => x * y`; see sidebar
-
-
   // Exercise 3.2: Implement the function tail for removing the first element of a List .
   // Note that the function takes constant time. What are different choices you could make
   // in your implementation if the List is Nil ?
@@ -73,9 +69,61 @@ object List { // `List` companion object. Contains functions for creating and wo
   //consisting of all but the last element of a List .
   def init[A](l: List[A]): List[A] = ???
 
+  // Exercise 3.7: Can product , implemented using foldRight , immediately halt the recursion and
+  //return 0.0 if it encounters a 0.0 ?
+  def productViaFoldRight(ns: List[Double]) = ???
+
+  // Exercise 3.9: Compute the length of a list using foldRight
   def length[A](l: List[A]): Int = ???
 
+  // Exercise 3.10: Implement the tail-recursive foldLeft
   def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = ???
 
+  // Exercise 3.11: Write sum , product , and a function to compute the length of a list using foldLeft
+  def sumViaFoldLeft(ns: List[Int]) = ???
+  def productViaFoldLeft(ns: List[Double]) = ???
+  def lengthViaFoldLeft[A](l: List[A]): Int = ???
+
+  // Exercise 3.12: Write a function that returns the reverse of a list
+  def reverse[A](l: List[A]) = ???
+
+  // Exercise 3.13: Can you write foldLeft in terms of foldRight?
+  def foldRightViaFoldLeft[A,B](as: List[A], z: B)(f: (A, B) => B): B = ???
+
+  // Exercise 3.14: Implement append in terms of either foldLeft or foldRight .
+  def appendViaFold[A](a1: List[A], a2: List[A]): List[A] = ???
+
+  // Exercise 3.15: Write a function that concatenates
+  // a list of lists into a single list. Its runtime
+  //should be linear in the total length of all lists.
+  def concatenate[A](l: List[List[A]]): List[A] = ???
+
+  // Exercise 3.18: Write a function map that generalizes
+  // modifying each element in a list while maintaining the structure of the list.
   def map[A,B](l: List[A])(f: A => B): List[B] = ???
+
+  // Exercise 3.19: Write a function filter that removes elements
+  // from a list unless they satisfy a given predicate.
+  def filter[A](as: List[A])(f: A => Boolean): List[A] = ???
+
+  // Exercise 3.20: Write a function flatMap that works
+  // like map except that the function given will return
+  //a list instead of a single result.
+  def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] = ???
+
+  // Exercise 3.21: Use flatMap to implement filter
+  def filterViaFlatMap[A](as: List[A])(f: A => Boolean): List[A] = ???
+
+  // Exercise 3.22: Write a function that accepts two lists
+  // and constructs a new list by adding corresponding elements.
+  def zipInts(as: List[Int], bs: List[Int]): List[Int] = ???
+
+  // Exercise 3.23: Write a function that accepts two lists
+  // and constructs a new list by adding corresponding elements.
+  def zipWith[A, B, C](as: List[A], bs: List[B])(f: (A, B) => C): List[C] = ???
+
+  // Exercise 3.24: Implement hasSubsequence for checking
+  // whether a List contains another List as a subsequence
+  def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = ???
+
 }
