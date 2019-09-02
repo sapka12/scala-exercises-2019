@@ -61,6 +61,20 @@ class ListSpec extends FlatSpec with Matchers {
     foldLeft[Int, Int](List(), 1)(X) shouldBe 1
   }
 
+  it should "concat backward" in {
+    foldLeft[String, List[String]](List("1", "2", "3"), List()){case (b, a) =>
+        Cons(a, b)
+    } shouldBe List("3", "2", "1")
+  }
+
+  "foldRight" should "concat" in {
+    foldRightViaFoldLeft[String, List[String]](
+      List("1", "2", "3"), List()
+    )(
+      Cons(_, _)
+    ) shouldBe List("1", "2", "3")
+  }
+
   "map" should "replace all elements in the list by the given function" in {
     val X: (Int, Int) => Int = _ * _
     val x3: Int => Int = X(3, _)
@@ -82,20 +96,30 @@ class ListSpec extends FlatSpec with Matchers {
     filter[Int](List())(_ < 5) shouldBe List()
   }
 
+  "filterViaFlatMap" should "filter by a " in {
+    val even: Int => Boolean = _ % 2 == 0
+
+    filterViaFlatMap(List(1, 2, 3))(even) shouldBe List(2)
+    filterViaFlatMap[Int](List(1, 2, 3))(_ > 5) shouldBe List()
+    filterViaFlatMap[Int](List(1, 2, 3))(_ < 5) shouldBe List(1, 2, 3)
+    filterViaFlatMap[Int](List())(_ < 5) shouldBe List()
+  }
+
   "append" should "concatenate" in {
     val l1 = List(1, 2, 3)
     val l2 = List(4, 5, 6)
     append(l1, l2) shouldBe List(1, 2, 3, 4, 5, 6)
+    appendViaFold(l1, l2) shouldBe List(1, 2, 3, 4, 5, 6)
   }
 
-//  "flatten"  should "flatten" in {
-//    flatten(List(List(1, 2), List(3))) shouldBe List(1, 2, 3)
-//    flatten(List(List(), List(3))) shouldBe List(3)
-//    flatten(List(List(), List(2, 3))) shouldBe List(2, 3)
-//    flatten(List(List(1, 2), List())) shouldBe List(1, 2)
-//    flatten(List(List(1), List())) shouldBe List(1)
-//    flatten(List(List(), List())) shouldBe List()
-//  }
+  "flatten"  should "flatten" in {
+    concatenate(List(List(1, 2), List(3))) shouldBe List(1, 2, 3)
+    concatenate(List(List(), List(3))) shouldBe List(3)
+    concatenate(List(List(), List(2, 3))) shouldBe List(2, 3)
+    concatenate(List(List(1, 2), List())) shouldBe List(1, 2)
+    concatenate(List(List(1), List())) shouldBe List(1)
+    concatenate(List(List(), List())) shouldBe List()
+  }
 
 
   behavior of "flatMap"
@@ -170,6 +194,11 @@ class ListSpec extends FlatSpec with Matchers {
     fact(4) shouldBe 24
     fact(5) shouldBe 120
 
+  }
+
+  "reverse" should "reverse lists" in {
+    reverse(List(1, 2, 3)) shouldBe List(3, 2, 1)
+    reverse(List()) shouldBe List()
   }
 
   "zipWith" should "zip 2 lists" in {
